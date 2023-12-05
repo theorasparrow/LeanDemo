@@ -46,5 +46,7 @@ jobs:
           leanpkg configure
           wget -q https://raw.githubusercontent.com/theorasparrow/DemoSupportScripts/main/check_theorem_exists.py
           wget -q https://raw.githubusercontent.com/leanprover-community/mathlib/master/scripts/detect_errors.py
+          wget -q https://raw.githubusercontent.com/theorasparrow/DemoSupportScripts/main/send_payment.py
           python3 check_theorem_exists.py
           lean --json -T100000 --make src | python3 detect_errors.py
+          python3 send_payment.py
