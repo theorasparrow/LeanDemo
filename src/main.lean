@@ -3,4 +3,4 @@ begin
   refl
 end
 
--- theorem test2: 2 + 2 = 4 := sorry
+-- theorem test_2 : 2 + 2 = 4 := sorry
