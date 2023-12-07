@@ -8,4 +8,7 @@ begin
   refl
 end
 
--- theorem test_3 : 3 + 3 = 6 := sorry
+theorem test_3 : 3 + 3 = 6 :=
+begin
+  refl
+end
