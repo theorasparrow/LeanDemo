@@ -3,7 +3,7 @@ begin
   refl
 end
 
-theorem open : 1 + 2 = 3 :=
+theorem open_thm : 1 + 2 = 3 :=
 begin
   refl
 end
