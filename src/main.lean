@@ -3,4 +3,7 @@ begin
   refl
 end
 
--- theorem open : 1 + 2 = 3 := sorry
+theorem open : 1 + 2 = 3 :=
+begin
+  refl
+end
