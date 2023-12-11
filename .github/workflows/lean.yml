@@ -43,7 +43,7 @@ jobs:
           python3 -m pipx ensurepath
           source ~/.profile
           pipx install mathlibtools
-          pip3 install web3
+          pip install web3[tester]
           leanpkg configure
           wget -q https://raw.githubusercontent.com/theorasparrow/DemoSupportScripts/main/check_theorem_exists.py
           wget -q https://raw.githubusercontent.com/leanprover-community/mathlib/master/scripts/detect_errors.py
