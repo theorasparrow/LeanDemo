@@ -1,6 +1,6 @@
 # LeanDemo
 
-You do not have to affilliated with a university to participate.
+You do not have to be affiliated with a university to participate.
 
 To submit a proof:
 - Fork the repository.
