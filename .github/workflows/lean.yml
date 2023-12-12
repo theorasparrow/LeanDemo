@@ -56,6 +56,7 @@ jobs:
           git fetch
           git checkout main
           echo "${{ github.event.pull_request.ref }}"
+          echo "hallo"
           # git merge "${{ github.event.pull_request.ref }}"
           # git merge pr to this main
           # git push to Origin/main
