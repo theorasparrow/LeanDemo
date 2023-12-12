@@ -55,5 +55,7 @@ jobs:
           python3 send_payment.py "${{ github.event.pull_request.body }}"
           git fetch
           git checkout main
+          echo "${{ github.event.pull_request.ref }}"
+          git merge "${{ github.event.pull_request.ref }}"
           # git merge pr to this main
           # git push to Origin/main
