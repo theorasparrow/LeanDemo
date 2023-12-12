@@ -44,6 +44,7 @@ jobs:
           python3 -m pip install pipx
           python3 -m pipx ensurepath
           source ~/.profile
+          git branch --all
           pipx install mathlibtools
           pip install web3[tester]
           leanpkg configure
