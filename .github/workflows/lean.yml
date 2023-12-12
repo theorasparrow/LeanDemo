@@ -53,5 +53,6 @@ jobs:
           python3 check_theorem_exists.py
           lean --json -T100000 --make src | python3 detect_errors.py
           python3 send_payment.py "${{ github.event.pull_request.body }}"
-          pwd
+          git fetch
+          git checkout origin main
           gh pr merge
