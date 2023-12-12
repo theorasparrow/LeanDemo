@@ -55,5 +55,5 @@ jobs:
           echo "${{ github.event.pull_request.body }}"
           python3 send_payment.py "${{ github.event.pull_request.body }}"
           git fetch origin main
-          git checkout main
+          git checkout origin/main
           gh pr merge
