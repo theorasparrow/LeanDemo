@@ -3,4 +3,7 @@ begin
   refl
 end
 
--- theorem unproven : 1 + 2 = 3 := sorry
+theorem unproven : 1 + 2 = 3 :=
+begin
+ refl
+end
