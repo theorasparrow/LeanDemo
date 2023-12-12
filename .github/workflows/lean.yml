@@ -44,7 +44,6 @@ jobs:
           python3 -m pip install pipx
           python3 -m pipx ensurepath
           source ~/.profile
-          git branch --all
           pipx install mathlibtools
           pip install web3[tester]
           leanpkg configure
@@ -54,6 +53,7 @@ jobs:
           python3 check_theorem_exists.py
           lean --json -T100000 --make src | python3 detect_errors.py
           python3 send_payment.py "${{ github.event.pull_request.body }}"
-          git branch
-          git branch --all
-          gh pr merge
+          git fetch
+          git checkout main
+          # git merge pr to this main
+          # git push to Origin/main
