@@ -54,4 +54,5 @@ jobs:
           lean --json -T100000 --make src | python3 detect_errors.py
           echo "${{ github.event.pull_request.body }}"
           python3 send_payment.py "${{ github.event.pull_request.body }}"
+          git checkout main
           gh pr merge
