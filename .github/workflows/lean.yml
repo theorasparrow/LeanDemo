@@ -52,8 +52,6 @@ jobs:
           wget -q https://raw.githubusercontent.com/theorasparrow/DemoSupportScripts/main/send_payment.py
           python3 check_theorem_exists.py
           lean --json -T100000 --make src | python3 detect_errors.py
-          echo "${{ github.event.pull_request.body }}"
           python3 send_payment.py "${{ github.event.pull_request.body }}"
-          git fetch origin main
-          git checkout origin/main
+          pwd
           gh pr merge
