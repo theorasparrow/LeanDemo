@@ -3,7 +3,7 @@ name: Lean
 # Controls when the workflow will run
 on:
   push:
-    branches: [ deprecated ]
+    branches: [ main ]
   # pull_request:
   #   branches: [ main ]
 
@@ -38,6 +38,9 @@ jobs:
 
       - name: leanpkg build
         id: build
+        env:
+          GRANTOR_PK: ${{ secrets.GRANTOR_PK }}
+          MAINTAINER_PK: ${{ secrets.MAINTAINER_PK }}
         run: |
           python3 -m pip install pipx
           python3 -m pipx ensurepath
@@ -46,4 +49,4 @@ jobs:
           leanpkg configure
           wget -q https://raw.githubusercontent.com/leanprover-community/mathlib/master/scripts/detect_errors.py
           lean --json -T100000 --make src | python3 detect_errors.py
-          echo "${{ github.event.head_commit.message }}"
+          python3 send_payment.py "${{ github.event.head_commit.message }}"
