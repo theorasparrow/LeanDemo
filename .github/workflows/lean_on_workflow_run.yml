@@ -1,4 +1,4 @@
-name: Lean
+name: on_workflow_run
 
 # Controls when the workflow will run
 on:
