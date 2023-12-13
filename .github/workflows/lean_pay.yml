@@ -1,0 +1,62 @@
+name: Lean
+
+# Controls when the workflow will run
+on:
+  # push:
+  #   branches: [ main, staging, trying ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    env:
+      # number of commits to check for olean cache
+      GIT_HISTORY_DEPTH: 20
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: ${{ env.GIT_HISTORY_DEPTH }}
+
+      - name: install elan
+        run: |
+          set -o pipefail
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- --default-toolchain none -y
+          ~/.elan/bin/lean --version
+          source $HOME/.elan/env
+      - name: install Python
+        if: ${{ ! 1 }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+
+      - name: leanpkg build
+        id: build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 -m pip install pipx
+          python3 -m pipx ensurepath
+          source ~/.profile
+          pipx install mathlibtools
+          pip install web3[tester]
+          leanpkg configure
+          wget -q https://raw.githubusercontent.com/theorasparrow/DemoSupportScripts/main/check_theorem_exists.py
+          wget -q https://raw.githubusercontent.com/leanprover-community/mathlib/master/scripts/detect_errors.py
+          wget -q https://raw.githubusercontent.com/theorasparrow/DemoSupportScripts/main/send_payment.py
+          python3 check_theorem_exists.py
+          lean --json -T100000 --make src | python3 detect_errors.py
+          python3 send_payment.py "${{ github.event.pull_request.body }}"
+          git fetch
+          git checkout main
+          echo "${{ github.event.pull_request.ref }}"
+          echo "hallo"
+          # git merge "${{ github.event.pull_request.ref }}"
+          # git merge pr to this main
+          # git push to Origin/main
