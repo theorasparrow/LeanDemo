@@ -38,19 +38,15 @@ jobs:
 
       - name: leanpkg build
         id: build
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GRANTOR_PK: ${{ secrets.GRANTOR_PK }}
-          MAINTAINER_PK: ${{ secrets.MAINTAINER_PK }}
         run: |
           python3 -m pip install pipx
           python3 -m pipx ensurepath
           source ~/.profile
           pipx install mathlibtools
-          pip install web3[tester]
+          # pip install web3[tester]
           leanpkg configure
           wget -q https://raw.githubusercontent.com/leanprover-community/mathlib/master/scripts/detect_errors.py
-          wget -q https://raw.githubusercontent.com/theorasparrow/DemoSupportScripts/main/send_payment.py
+          # wget -q https://raw.githubusercontent.com/theorasparrow/DemoSupportScripts/main/send_payment.py
           lean --json -T100000 --make src | python3 detect_errors.py
-          python3 send_payment.py "${{ github.event.head_commit.message }}"
+          # python3 send_payment.py "${{ github.event.head_commit.message }}"
   
