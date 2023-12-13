@@ -47,8 +47,9 @@ jobs:
           python3 -m pip install pipx
           python3 -m pipx ensurepath
           source ~/.profile
+          pip install web3[tester]
           wget -q https://raw.githubusercontent.com/theorasparrow/DemoSupportScripts/main/send_payment.py
-          python3 send_payment.py
+          python3 send_payment.py "${{ github.event.workflow_run.event.body }}"
           git fetch
           git switch main
           echo "hallo"
