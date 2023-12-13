@@ -3,7 +3,7 @@ name: Lean
 # Controls when the workflow will run
 on:
   push:
-    branches: [ main, staging, trying ]
+    branches: [ deprecated ]
   # pull_request:
   #   branches: [ main ]
 
