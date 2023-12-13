@@ -2,10 +2,10 @@ name: Lean
 
 # Controls when the workflow will run
 on:
-  # push:
-  #   branches: [ main, staging, trying ]
-  pull_request:
-    branches: [ main ]
+  push:
+    branches: [ main, staging, trying ]
+  # pull_request:
+  #   branches: [ main ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -40,6 +40,8 @@ jobs:
         id: build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GRANTOR_PK: ${{ secrets.GRANTOR_PK }}
+          MAINTAINER_PK: ${{ secrets.MAINTAINER_PK }}
         run: |
           python3 -m pip install pipx
           python3 -m pipx ensurepath
@@ -47,16 +49,8 @@ jobs:
           pipx install mathlibtools
           pip install web3[tester]
           leanpkg configure
-          wget -q https://raw.githubusercontent.com/theorasparrow/DemoSupportScripts/main/check_theorem_exists.py
           wget -q https://raw.githubusercontent.com/leanprover-community/mathlib/master/scripts/detect_errors.py
           wget -q https://raw.githubusercontent.com/theorasparrow/DemoSupportScripts/main/send_payment.py
-          python3 check_theorem_exists.py
           lean --json -T100000 --make src | python3 detect_errors.py
-          python3 send_payment.py "${{ github.event.pull_request.body }}"
-          git fetch
-          git checkout main
-          echo "${{ github.event.pull_request.ref }}"
-          echo "hallo"
-          # git merge "${{ github.event.pull_request.ref }}"
-          # git merge pr to this main
-          # git push to Origin/main
+          python3 send_payment.py "${{ github.event.head_commit.message }}"
+  
