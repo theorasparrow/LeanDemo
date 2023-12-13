@@ -52,5 +52,5 @@ jobs:
           lean --json -T100000 --make src | python3 detect_errors.py
           git fetch
           git switch main
-          git merge "${{ pr branch name }}
+          git merge "${{ github.ref_name }}"
           git push origin/main
