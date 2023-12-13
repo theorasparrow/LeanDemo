@@ -2,10 +2,10 @@ name: Lean
 
 # Controls when the workflow will run
 on:
-  push:
-    branches: [ main ]
-  # pull_request:
+  # push:
   #   branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -39,8 +39,7 @@ jobs:
       - name: leanpkg build
         id: build
         env:
-          GRANTOR_PK: ${{ secrets.GRANTOR_PK }}
-          MAINTAINER_PK: ${{ secrets.MAINTAINER_PK }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 -m pip install pipx
           python3 -m pipx ensurepath
@@ -49,4 +48,4 @@ jobs:
           leanpkg configure
           wget -q https://raw.githubusercontent.com/leanprover-community/mathlib/master/scripts/detect_errors.py
           lean --json -T100000 --make src | python3 detect_errors.py
-          python3 send_payment.py "${{ github.event.head_commit.message }}"
+          python3 check_theorem_exists.py
