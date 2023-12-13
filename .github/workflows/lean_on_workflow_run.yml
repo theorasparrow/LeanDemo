@@ -55,5 +55,5 @@ jobs:
           git switch main
           echo "hallo"
           echo "${{ github.event.workflow_run.head_branch }}"
-          git merge "${{ github.event.workflow_run.head_branch }}"
+          git merge "origin/${{ github.event.workflow_run.head_branch }}"
           git push origin/main
