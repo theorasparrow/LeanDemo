@@ -1,1 +1,57 @@
+name: Lean
 
+# Controls when the workflow will run
+on:
+  # push:
+  #   branches: [ main ]
+  # pull_request:
+  #   branches: [ main ]
+  workflow_run:
+    workflows: ["PR"]
+    types:
+      - completed
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    env:
+      # number of commits to check for olean cache
+      GIT_HISTORY_DEPTH: 20
+    if: >
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.conclusion == 'success'
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: ${{ env.GIT_HISTORY_DEPTH }}
+
+      - name: install Python
+        if: ${{ ! 1 }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+
+      - name: send payment
+        id: pay
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GRANTOR_PK: ${{ secrets.GRANTOR_PK }}
+          MAINTAINER_PK: ${{ secrets.MAINTAINER_PK }}
+        run: |
+          python3 -m pip install pipx
+          python3 -m pipx ensurepath
+          source ~/.profile
+          wget -q https://raw.githubusercontent.com/theorasparrow/DemoSupportScripts/main/send_payment.py
+          python3 send_payment.py
+          git fetch
+          git switch main
+          echo "hallo"
+          echo "${{ github.event.workflow_run.head_branch }}"
+          git merge "${{ github.event.workflow_run.head_branch }}"
+          git push origin/main
