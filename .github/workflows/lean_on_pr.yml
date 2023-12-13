@@ -1,4 +1,4 @@
-name: Lean
+name: PR
 
 # Controls when the workflow will run
 on:
@@ -38,8 +38,6 @@ jobs:
 
       - name: leanpkg build
         id: build
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 -m pip install pipx
           python3 -m pipx ensurepath
@@ -50,7 +48,3 @@ jobs:
           wget -q https://raw.githubusercontent.com/theorasparrow/DemoSupportScripts/main/check_theorem_exists.py
           python3 check_theorem_exists.py
           lean --json -T100000 --make src | python3 detect_errors.py
-          git fetch
-          git switch main
-          git merge "${{ github.ref_name }}"
-          git push origin/main
