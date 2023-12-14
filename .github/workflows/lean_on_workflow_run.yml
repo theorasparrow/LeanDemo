@@ -62,3 +62,4 @@ jobs:
           echo "${{ github.event.workflow_run.head_branch }}"
           git merge "origin/${{ github.event.workflow_run.head_branch }}"
           git push
+          git push -d origin "${{ github.event.workflow_run.head_branch }}"
