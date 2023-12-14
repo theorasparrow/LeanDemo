@@ -51,6 +51,8 @@ jobs:
           wget -q https://raw.githubusercontent.com/theorasparrow/DemoSupportScripts/main/send_payment.py
           # python3 send_payment.py "${{ github.event.workflow_run.event.body }}"
           python3 send_payment.py "Eth 0x6813Eb9362372EEF6200f3b1dbC3f819671cBA69"
+          git config user.name "captain Sparrow"
+          git config user.email "152971598+theorasparrow@users.noreply.github.com"
           git fetch
           git switch main
           echo "hallo"
